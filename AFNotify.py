@@ -1,6 +1,7 @@
 import json
 import logging
 import time
+import sys
 
 # noinspection Mypy
 from pynotifier import Notification
@@ -31,6 +32,19 @@ if not status_links:
     raise ValueError("Nothing to watch for!")
 
 logging.critical("Starting to watch.")
+
+
+# handling of uncaught exceptions
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+
+    logging.critical("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+
+
+sys.excepthook = handle_exception
+
 while True:
     counts = {}
     for key, link in status_links.items():
