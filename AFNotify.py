@@ -6,6 +6,9 @@ import sys
 from requests import get, RequestException
 
 status_links = {"eu": r"https://eu.acolytefight.io/status", "us": r"https://us.acolytefight.io/status"}
+
+# constants to set by user
+
 request_period = 300  # seconds (5 minutes)
 to_notify = True  # whether to enable desktop notifications
 notification_dur = 10  # seconds - note that the program can't be shut down when the notification is showing
