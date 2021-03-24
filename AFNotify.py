@@ -1,3 +1,4 @@
+import json
 import logging
 import time
 
@@ -45,7 +46,7 @@ while True:
             logging.debug(f"Response content: {repr(response.content)}")
 
     if log_all:
-        logging.info(f"Fetched counts: {counts}")
+        logging.info(f"Fetched counts: {json.dumps(counts)}")
 
     for k, count in counts.items():
         if count >= thresholds[k]:
