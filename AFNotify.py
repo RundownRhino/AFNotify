@@ -1,6 +1,9 @@
-from requests import get
+import logging
+import time
+
+# noinspection Mypy
 from pynotifier import Notification
-import logging, time
+from requests import get
 
 status_links = {"eu": r"https://eu.acolytefight.io/status", "us": r"https://us.acolytefight.io/status"}
 request_period = 300  # seconds (5 minutes)
@@ -31,6 +34,7 @@ while True:
     counts = {}
     for key, link in status_links.items():
         response = get(link)
+        # noinspection PyBroadException
         try:
             if response.status_code == 200:
                 data = response.json()
@@ -38,7 +42,7 @@ while True:
                 counts[key] = count
         except:  # KeyError, most likely, but catch and log all
             logging.exception(f"Failed handling a response from server {key}.")
-            logging.debug(f"Response content: {response.content}")
+            logging.debug(f"Response content: {repr(response.content)}")
 
     if log_all:
         logging.info(f"Fetched counts: {counts}")
